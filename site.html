@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Gerador de Key - MI HUB</title>
+  <script>
+    function gerarKey() {
+      const ultimaKey = localStorage.getItem("keyTime");
+      const agora = new Date().getTime();
+
+      if (ultimaKey && agora - ultimaKey < 12 * 60 * 60 * 1000) {
+        alert("Aguarde 12 horas para gerar uma nova key.");
+        return;
+      }
+
+      const key = btoa("MI HUB UNLOCK").split("").reverse().join("");
+      document.getElementById("key").textContent = key;
+
+      localStorage.setItem("keyTime", agora);
+      localStorage.setItem("currentKey", key);
+    }
+
+    function mostrarKey() {
+      const key = localStorage.getItem("currentKey");
+      document.getElementById("key").textContent = key || "Nenhuma key gerada ainda.";
+    }
+
+    window.onload = mostrarKey;
+  </script>
+</head>
+<body>
+  <h1>Gerador de Key - MI HUB</h1>
+  <p>Key atual:</p>
+  <pre id="key">Carregando...</pre>
+  <button onclick="gerarKey()">🔄 Gerar nova key (a cada 12h)</button>
+</body>
+</html>
